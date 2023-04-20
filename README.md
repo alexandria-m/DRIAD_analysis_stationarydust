@@ -34,15 +34,21 @@ forces.m: plot Fid and Fdd for each dust grain for dust-specific cases.
 
 import_without_A.m: read in data from the debug file.
 
+calc_num_ions_needed.m: calculates how many ions needed for a desired SUPER_ION_MULT, given HT_CYL and RAD_CYL.
+
+plot_3Dionpaths.m: plots the entrance point, trajectory, and exit points of ions in the simulation cylinder.
+
+drift_velocity.m: calculates the input Mach for a given electric field.
+
 ## File input
-_ion_on_dust_acc.txt: prints out "accDustIon" in x-, y-, and z-directions, followed by "momIonDust" in x-, y-, and z-directions (for each dust grain at each time step).
+_ion_on_dust_acc.txt: contains "accDustIon" in x-, y-, and z-directions, followed by "momIonDust" in x-, y-, and z-directions (for each dust grain at each time step).
 
-_debug.txt: prints out GPU device properties, constants, user-defined parameters, derived parameters, as well as other values.
+_debug.txt: contains GPU device properties, constants, user-defined parameters, derived parameters, as well as other values.
 
-_dust-pos.txt: prints out the final dust positions.
+_dust-pos.txt: contains the final dust positions.
 
-_params.txt: prints out all input parameters.
+_params.txt: contains all input parameters.
 
-_ion-den.txt: prints out the x and z grid positions in two columns, followed by the ion density in one column and ion potential at each grid position in the other.
+_ion-den.txt: contains the x and z grid positions in two columns, followed by the ion density in one column and ion potential at each grid position in the other.
 
-_outside_potential.txt: prints out the x and z grid positions in two columns, followed by the outside potential at each grid position.
+_outside_potential.txt: contains the x and z grid positions in two columns, followed by the outside potential at each grid position.
