@@ -3,13 +3,15 @@
 
 figure(2)
 %% Read in dust charge
-time = CHARGE_DUST(1:end,1);
-CHARGE_DUST(end,:) = [];
+if(NUM_DUST > 1)
+    time = CHARGE_DUST(1:end,1);
+    CHARGE_DUST(end,:) = [];
+end
 qe = -1.602e-19;
 
 %% plot dust charge
 colors = [purple1; red1; blue1; orange1; red2; green1; blue2; orange2; purple2; green2;];
-for i = 1:NUM_DUST;
+for i = 1:NUM_DUST
     plot((CHARGE_DUST(:,i)/qe)/1000, '.', 'Color', colors(i,:))
     hold on
 end

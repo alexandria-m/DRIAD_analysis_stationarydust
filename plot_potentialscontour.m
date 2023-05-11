@@ -39,7 +39,7 @@ title('outside potential', 'FontWeight', 'bold', 'FontSize', 20)
 
 %title(dataset{d}, 'Interpreter', 'none', 'Units', 'normalized', 'Position', [.5, 0, 1])
 %% Inside Potential
-avg_pot = mean(pot(:,:,50:end),3);
+avg_pot = mean(pot(:,:,5:end),3);
 max_in = max(max(avg_pot));
 min_in = min(min(avg_pot));
 

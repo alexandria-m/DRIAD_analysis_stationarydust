@@ -7,7 +7,7 @@ qe = -1.602e-19;
 % read the dust charge
 CHARGE_DUST = csvread([path folder dataset{d} name '_dust-charge.txt']);
 CHARGE_DUST(:,end) = [];
-CHARGE_DUST1 = mean(CHARGE_DUST(100:end,:)); %average over last 1/2
+CHARGE_DUST1 = mean(CHARGE_DUST(100:end,:));
 
 dustPos1 = dustPos(:,3);
 %dustPosbox = (0.0060+ dustPos1); %shift the data so electrode is at zero

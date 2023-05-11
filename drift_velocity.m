@@ -35,8 +35,8 @@ bex_ion = A * (4*a_ion)^(1/4);
 
 K = 8/3/q * sqrt(mi/pi)*pi*(bex_ion)^2;
 z = 0.00162;
-E_o = -1.507e4;
-alpha = 2.573e6; 
+E_o = -5817;
+alpha = 2.666e+61; 
 beta = 0;
 E = E_o + alpha*z + beta*z*z;
 kb = 1.38e-23; %SI units

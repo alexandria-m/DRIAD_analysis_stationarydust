@@ -1,14 +1,14 @@
 % This script calculates Fid and Fdd for each dust grain.
-%% Set-up grid
-grid_data = csvread([path folder dataset{d} name '_ion-den.txt']);
-% r_pos = sqrt(sum(dustPos(:,1:2).^2,2));
-num_pts = RESX * RESZ;
-grid_pts = grid_data(1:num_pts,:);
-potential = grid_data(num_pts+1:end,2);
-pot = reshape(potential,RESX, RESZ,round(length(potential)/num_pts));
-
-X = reshape(grid_pts(:,1),RESX, RESZ);
-Z = reshape(grid_pts(:,2),RESX, RESZ);
+% %% Set-up grid
+% grid_data = csvread([path folder dataset{d} name '_ion-den.txt']);
+% % r_pos = sqrt(sum(dustPos(:,1:2).^2,2));
+% num_pts = RESX * RESZ;
+% grid_pts = grid_data(1:num_pts,:);
+% potential = grid_data(num_pts+1:end,2);
+% pot = reshape(potential,RESX, RESZ,round(length(potential)/num_pts));
+% 
+% X = reshape(grid_pts(:,1),RESX, RESZ);
+% Z = reshape(grid_pts(:,2),RESX, RESZ);
 %% Determine potential from outside ions
 half_X = RESX/2;
 pot_out_data = csvread([path folder dataset{d} name '_outside_potential.txt']);
@@ -84,16 +84,18 @@ force_dd = repmat(force_dd, [1,1,3]).*disp;
 force_dd = squeeze(nansum(force_dd,2));
 
 %% Plot the forces
-figure(3)
-hold on
-plot(dustPos1*1e3, force_dd(:,1), '*', 'MarkerSize', 15, 'Color', 'm') 
-plot(dustPos1*1e3, force_dd(:,2), '+', 'MarkerSize', 15, 'Color', 'k') 
-plot(dustPos1*1e3, force_dd(:,3), '.', 'MarkerSize', 15, 'Color', 'c') 
+if(NUM_DUST > 1) %Fdd will be zero for one dust grain
+    figure(3)
+    hold on
+    plot(dustPos1*1e3, force_dd(:,1), '*', 'MarkerSize', 15, 'Color', 'm') 
+    plot(dustPos1*1e3, force_dd(:,2), '+', 'MarkerSize', 15, 'Color', 'k') 
+    plot(dustPos1*1e3, force_dd(:,3), '.', 'MarkerSize', 15, 'Color', 'c')
 
-legend({'x', 'y', 'z'}, 'Location', 'bestoutside', 'FontSize', 15)
-ylabel('F_{dd}', 'FontWeight', 'bold', 'FontSize', 20);
-xlabel('z (mm)', 'FontWeight', 'bold', 'FontSize', 20);
-set(findobj(gcf,'type','axes'),'FontSize',15);
+    legend({'x', 'y', 'z'}, 'Location', 'bestoutside', 'FontSize', 15)
+    ylabel('F_{dd}', 'FontWeight', 'bold', 'FontSize', 20);
+    xlabel('z (mm)', 'FontWeight', 'bold', 'FontSize', 20);
+    set(findobj(gcf,'type','axes'),'FontSize',15);
+end
 
 figure(4)
 hold on
@@ -102,7 +104,7 @@ plot(dustPos1*1e3, accavgy, '+', 'MarkerSize', 15, 'Color', 'k')
 plot(dustPos1*1e3, accavgz, '.', 'MarkerSize', 15, 'Color', 'c')
 
 legend({'x', 'y', 'z'}, 'Location', 'bestoutside', 'FontSize', 15)
-ylabel('F_{direct}', 'FontWeight', 'bold', 'FontSize', 20);
+ylabel('accDustIon', 'FontWeight', 'bold', 'FontSize', 20);
 xlabel('z (mm)', 'FontWeight', 'bold', 'FontSize', 20);
 set(findobj(gcf,'type','axes'),'FontSize',15);
 
@@ -113,6 +115,6 @@ plot(dustPos1*1e3, momavgy, '+', 'MarkerSize', 15, 'Color', 'k')
 plot(dustPos1*1e3, momavgz, '.', 'MarkerSize', 15, 'Color', 'c')
 
 legend({'x', 'y', 'z'}, 'Location', 'bestoutside', 'FontSize', 15)
-ylabel('F_{orbit}', 'FontWeight', 'bold', 'FontSize', 20);
+ylabel('momDustIon', 'FontWeight', 'bold', 'FontSize', 20);
 xlabel('z (mm)', 'FontWeight', 'bold', 'FontSize', 20);
 set(findobj(gcf,'type','axes'),'FontSize',15);

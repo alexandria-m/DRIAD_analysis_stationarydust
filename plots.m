@@ -3,13 +3,13 @@ clear all
 
 %% Set path to data
 %The path to your data
-path = '/Users/alexandriamendoza/Documents/Plasma/charging/';
+path = '/Users/alexandriamendoza/Documents/Plasma/zigzag';
 %Folder your data is in
-folder = 'iterating_position/';
+folder = '/debugging';
 %Name of each dataset, can read in multiple at a time
-dataset = {'charge_test'};
+dataset = {'/103_change_linear_nodust'};
 %Name of run (must be the same for each dataset)
-name = '/charge_test';
+name = '/103test';
 
 %% Different colors for plots
 purple1 = [170 60 195]/255;
@@ -40,15 +40,23 @@ for d = 1:length(dataset)
     
     %Read in data from debug file
     import_debug_file;
+    %% Set-up grid
+    grid_data = csvread([path folder dataset{d} name '_ion-den.txt']);
+    % r_pos = sqrt(sum(dustPos(:,1:2).^2,2));
+    num_pts = RESX * RESZ;
+    grid_pts = grid_data(1:num_pts,:);
+    potential = grid_data(num_pts+1:end,2);
+    pot = reshape(potential,RESX, RESZ,round(length(potential)/num_pts));
+
+    X = reshape(grid_pts(:,1),RESX, RESZ);
+    Z = reshape(grid_pts(:,2),RESX, RESZ);
     %% Plots
     %Dust specific cases
     if(NUM_DUST > 0)
       dustPos = csvread([path folder dataset{d} name '_dust-pos.txt']);
       dustPosz = dustPos(:,3);
-      if(NUM_DUST > 2)
-        %Plots final dust charge
-        dust_charge_avg;
-      end
+      %Plots final dust charge
+      dust_charge_avg;
       %Plots dust charge at each time step
       charge_time;
       %Plots Fid (in x, y and z) and Fdd (in x, y and z) for each dust grain
@@ -79,4 +87,45 @@ for d = 1:length(dataset)
     saveas(figure(11), [path folder dataset{d} '/vi.jpg']);
     saveas(figure(12), [path folder dataset{d} '/acc_iz.jpg']);
     saveas(figure(13), [path folder dataset{d} '/normalized_density.jpg']);
+
+%% Positions and Velocities of ions
+data1 = csvread([path folder dataset{d} name '_trace.txt']);
+ionPos = data1(1:3:end,:);
+vel = data(2:3:end,1:3);
+time = 0:ION_TIME_STEP:N_IONDT_PER_DUSTDT*NUM_TIME_STEP*ION_TIME_STEP;
+time(1) = [];
+% 
+figure
+insert=diff(ionPos(:,3));
+idx = find(diff(ion_pos(:,3))>0);
+idx = find(insert>0);
+scatter3(ionPos(:,1),ionPos(:,2),ionPos(:,3))
+hold on
+scatter3(ionPos(idx+1,1), ionPos(idx+1,2), ionPos(idx+1,3), 'MarkerEdgeColor', 'm')
+axis equal
+% title('ion positions')
+% saveas(gcf, [path folder 'ion_pos.jpg']);
+% 
+figure
+scatter(time, ionPos(:,3))
+xlabel('t', 'FontSize', 20)
+ylabel('x_z', 'FontSize', 20)
+saveas(gcf, [path folder 'pos_vel.jpg']);
+set(findobj(gcf,'type','axes'),'FontSize',15);
+% saveas(gcf, [path folder 'time_ionpos_z.jpg'])
+% 
+% figure
+% scatter(time, vel(:,3))
+% xlabel('t')
+% ylabel('V_z')
+% title([name ' z velocity vs time'])
+% saveas(gcf, [path folder 'time_ionvel_z.jpg']);
+% 
+figure
+scatter(ionPos(:,3), vel(:,2))
+xlabel('z position', 'FontSize', 20)
+ylabel('v_z', 'FontSize', 20)
+saveas(gcf, [path folder 'pos_vel.jpg']);
+set(findobj(gcf,'type','axes'),'FontSize',15);
+
 end
