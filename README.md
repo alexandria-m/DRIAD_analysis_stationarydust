@@ -29,6 +29,10 @@ To use the code, simply clone the repository and open MATLAB. Run the "plots.m" 
 - plot_3Dionpaths.m: plots the entrance point, trajectory, and exit points of ions in the simulation cylinder.
 - drift_velocity.m: calculates the input Mach for a given electric field.
 
+- force_balance.m: calculates the forces acting on a 2D or 3D dust chain and uses the forces to calculate an electric field
+- force_balance_1d.m: calculates the forces acting on a 1D dust chain and uses the forces to calculate an electric field
+- force_balance_compare.m: compares the MST method of calculating the force from the ions to the force DRIAD calculates in addition to all other forces and calculates an electric field
+
 ## File input
 _ion_on_dust_acc.txt: contains "accDustIon" in x-, y-, and z-directions, followed by "momIonDust" in x-, y-, and z-directions (for each dust grain at each time step).
 
